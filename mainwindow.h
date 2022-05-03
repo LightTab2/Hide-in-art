@@ -48,6 +48,6 @@ private:
 
     quint64             seed = 1085421659u;
     quint64             blum = 2783859748098954953ull;
-
-    QByteArray          plainText, hiddenText, cypherBits, rngBits, medium, r, g, b, steg;
+    quint16             sizeMarkFrequency = 100u;
+    QByteArray          plainText, hiddenText, cypherBits, rngBits, medium, r, g, b, marks, steg;
 };

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>450</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="minimumSize">
    <size>
     <width>600</width>
-    <height>450</height>
+    <height>550</height>
    </size>
   </property>
   <property name="font">
@@ -43,7 +43,7 @@
    <property name="minimumSize">
     <size>
      <width>600</width>
-     <height>400</height>
+     <height>500</height>
     </size>
    </property>
    <property name="palette">
@@ -158,7 +158,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="sideLayout" stretch="0,0,0,0,0,0,0,0,0,0">
+       <layout class="QVBoxLayout" name="sideLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0">
         <property name="spacing">
          <number>5</number>
         </property>
@@ -437,6 +437,96 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="Line" name="stegSeparator">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="sizeLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Częst. znacznika rozmiaru</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="buddy">
+           <cstring>seedSpin</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="sizeSpin">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="minimum">
+           <number>48</number>
+          </property>
+          <property name="maximum">
+           <number>999999999</number>
+          </property>
+          <property name="value">
+           <number>100</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="drawTransparentCheck">
+          <property name="text">
+           <string>Przezroczyste pixele</string>
+          </property>
+          <property name="tristate">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -550,6 +640,19 @@
         </item>
         <item>
          <widget class="QLabel" name="bImage">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="sizeImage">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -702,16 +805,6 @@
   <action name="actionSaveAsSteganogram">
    <property name="text">
     <string>Zapisz jako</string>
-   </property>
-  </action>
-  <action name="actionHelpUse">
-   <property name="text">
-    <string>Użycie</string>
-   </property>
-  </action>
-  <action name="actionHelpAlgorithm">
-   <property name="text">
-    <string>Działanie</string>
    </property>
   </action>
  </widget>

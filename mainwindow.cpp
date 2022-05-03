@@ -12,18 +12,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->actionSave  ->setShortcut(QKeySequence(tr("Ctrl+S")));
     ui->actionSaveAs->setShortcut(QKeySequence(tr("Ctrl+Shift+S")));
 
-    connect(ui->actionLoad,             &QAction::triggered,                this, &MainWindow::loadFile);
-    connect(ui->actionSave,             &QAction::triggered,                this, &MainWindow::saveFile);
-    connect(ui->actionSaveAs,           &QAction::triggered,                this, &MainWindow::saveAsFile);
-    connect(ui->actionLoadSteganogram,  &QAction::triggered,                this, &MainWindow::loadFileSteganogram);
-    connect(ui->actionSaveSteganogram,  &QAction::triggered,                this, &MainWindow::saveFileSteganogram);
-    connect(ui->actionSaveAsSteganogram,&QAction::triggered,                this, &MainWindow::saveAsFileSteganogram);
-    connect(ui->actionLoadMedium,       &QAction::triggered,                this, &MainWindow::loadFileMedium);
-    connect(ui->blumGenerate,           &QPushButton::clicked,              this, &MainWindow::generateBlum);
-    connect(ui->seedGenerate,           &QPushButton::clicked,              this, &MainWindow::generateSeed);
-    connect(ui->blumSpin,               &BigSpin::valueChanged,             this, &MainWindow::changeBlum);
-    connect(ui->seedSpin,               &QSpinBox::valueChanged,            this, [this](int value)     { this->seed = value; });
-    connect(ui->hideButton,             &QPushButton::clicked,              this, &MainWindow::hideText);
+    connect(ui->actionLoad,             &QAction::triggered,            this, &MainWindow::loadFile);
+    connect(ui->actionSave,             &QAction::triggered,            this, &MainWindow::saveFile);
+    connect(ui->actionSaveAs,           &QAction::triggered,            this, &MainWindow::saveAsFile);
+    connect(ui->actionLoadSteganogram,  &QAction::triggered,            this, &MainWindow::loadFileSteganogram);
+    connect(ui->actionSaveSteganogram,  &QAction::triggered,            this, &MainWindow::saveFileSteganogram);
+    connect(ui->actionSaveAsSteganogram,&QAction::triggered,            this, &MainWindow::saveAsFileSteganogram);
+    connect(ui->actionLoadMedium,       &QAction::triggered,            this, &MainWindow::loadFileMedium);
+    connect(ui->blumGenerate,           &QPushButton::clicked,          this, &MainWindow::generateBlum);
+    connect(ui->seedGenerate,           &QPushButton::clicked,          this, &MainWindow::generateSeed);
+    connect(ui->blumSpin,               &BigSpin::valueChanged,         this, &MainWindow::changeBlum);
+    connect(ui->seedSpin,               &QSpinBox::valueChanged,        this, [this](int value)     { this->seed                = value; });
+    connect(ui->sizeSpin,               &QSpinBox::valueChanged,        this, [this](int value)     { this->sizeMarkFrequency   = value; });
+    connect(ui->hideButton,             &QPushButton::clicked,          this, &MainWindow::hideText);
 }
 
 
@@ -94,8 +95,7 @@ void MainWindow::saveAsFileSteganogram()
         return;
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Zapisz plik jako"), "",
-                                                    //tr("Pliki bitmapowe (*.bmp)"),
-                                                    tr("Pliki PNG (*.png)"));
+                                                    tr("Obraz PNG (*.png);; Bitmapa (*.bmp)"));
     if (fileName.isEmpty())
             return;
 
@@ -107,19 +107,20 @@ void MainWindow::loadFileSteganogram()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Wczytaj plik"), "",
-                                                    //tr("Pliki bitmapowe (*.bmp)"),
-                                                    tr("Pliki PNG (*.png)"));
+                                                    tr("Bezstratne obrazy (*.png *.bmp)"));
     if (fileName.isEmpty())
         return;
 
     QImage img;
-    img.load(fileName, "PNG");
+    img.load(fileName, fileName.right(3).toUpper().toLatin1());
+    img = img.convertToFormat(QImage::Format_ARGB32);
     steg.resize(img.sizeInBytes());
     memcpy(steg.data(), img.bits(), img.sizeInBytes());
     ui->stegImage   ->setPixmap(QPixmap::fromImage(img));
     ui->rImage      ->setPixmap(QPixmap());
     ui->gImage      ->setPixmap(QPixmap());
     ui->bImage      ->setPixmap(QPixmap());
+    ui->sizeImage   ->setPixmap(QPixmap());
     readHidden();
 }
 
@@ -128,8 +129,7 @@ void MainWindow::loadFileMedium()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Wczytaj plik"), "",
-                                                    //tr("Pliki bitmapowe (*.bmp)"),
-                                                    tr("Pliki PNG (*.png)"));
+                                                    tr("Bezstratne obrazy (*.png *.bmp)"));
     if (fileName.isEmpty())
         return;
 
@@ -142,9 +142,10 @@ void MainWindow::loadFileMedium()
         return;
     }
 
-    QPixmap pixmap(fileName, "PNG");
+    QPixmap pixmap(fileName, fileName.right(3).toUpper().toLatin1());
     ui->mediumImage->setPixmap(pixmap);
     QImage img = pixmap.toImage();
+    img = img.convertToFormat(QImage::Format_ARGB32);
     medium.resize(img.sizeInBytes());
     memcpy(medium.data(), img.bits(), img.sizeInBytes());
 }
